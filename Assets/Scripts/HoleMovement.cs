@@ -12,21 +12,30 @@ public class HoleMovement : MonoBehaviour
     [Header("Hole vertices radius")]
     [SerializeField] Vector2 moveLimits;
     [SerializeField] float radius;
-    [SerializeField] Transform holeCenter;
+   // [SerializeField] Transform holeCenter;
 
     [Space]
     [SerializeField] float moveSpeed;
+    [SerializeField] Transform holeTransform;
+    [SerializeField] float holeWidth;
 
     Mesh mesh;
     List<int> holeVertices;
     List<Vector3> offsets;
     int holeVerticesCount;
+    float holescale;
+
+    public static bool movemnet;
+    
+    
 
     float x,y;
     Vector3 touch,targetPos;
 
     void Start()
     {
+        movemnet = true;
+
         Game.isMoving = false;
         Game.isGameover = false;
 
@@ -41,6 +50,8 @@ public class HoleMovement : MonoBehaviour
 
     void Update()
     {
+        holescale = UndergroundCollision.holescale;
+        
         Game.isMoving = Input.GetMouseButton (0);
 
         if(!Game.isGameover && Game.isMoving) 
@@ -52,53 +63,56 @@ public class HoleMovement : MonoBehaviour
 
     void MoveHole () 
     {
+        if (movemnet) { 
         x = Input.GetAxis ("Mouse X");
         y = Input.GetAxis ("Mouse Y");
 
-        touch = Vector3.Lerp (holeCenter.position, holeCenter.position + new Vector3(x,0f,y), moveSpeed * Time.deltaTime);
+        touch = Vector3.Lerp (holeTransform.position, holeTransform.position + new Vector3(x,0f,y), moveSpeed * Time.deltaTime);
 
         targetPos = new Vector3 (
             Mathf.Clamp (touch.x, -moveLimits.x, moveLimits.x),
             touch.y,
             Mathf.Clamp (touch.z, -moveLimits.y, moveLimits.y) );
 
-        holeCenter.position = targetPos;
+        holeTransform.position = targetPos;
+        } 
     }
 
-    void UpdateHoleVerticesPosition () 
+    void UpdateHoleVerticesPosition()
     {
-        
         Vector3[] vertices = mesh.vertices;
-        for (int i = 0; i < holeVerticesCount; i++) 
+        Vector3 scale = new Vector3(holescale, holeTransform.localScale.y, holescale);
+
+        for (int i = 0; i < holeVerticesCount; i++)
         {
-            vertices[holeVertices[i]] = holeCenter.position + offsets [i];
+            vertices[holeVertices[i]] = holeTransform.position + Vector3.Scale(offsets[i], scale);
         }
+
         mesh.vertices = vertices;
         meshFilter.mesh = mesh;
         meshCollider.sharedMesh = mesh;
-
-        
     }
 
-    void FindHoleVertices () 
+    void FindHoleVertices()
     {
-        for (int i = 0; i < mesh.vertices.Length; i++) 
+        for (int i = 0; i < mesh.vertices.Length; i++)
         {
-            float distance = Vector3.Distance (holeCenter.position, mesh.vertices[i]);
+            float distance = Vector3.Distance(holeTransform.position, mesh.vertices[i]);
 
-            if(distance < radius) 
+            if (distance < radius)
             {
-                holeVertices.Add (i);
-                offsets.Add (mesh.vertices[i] - holeCenter.position);
+                holeVertices.Add(i);
+                offsets.Add(mesh.vertices[i] - holeTransform.position);
             }
         }
         holeVerticesCount = holeVertices.Count;
     }
 
+
     void OnDrawGizmos () 
     {
         Gizmos.color = Color.yellow;
-        Gizmos.DrawWireSphere (holeCenter.position, radius);
+        Gizmos.DrawWireSphere (holeTransform.position, radius);
     }
 
 }

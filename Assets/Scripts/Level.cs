@@ -22,6 +22,7 @@ public class Level : MonoBehaviour
 
     void Start()
     {
+        PlayerPrefs.DeleteAll();
         CountObjects();
     }
 
@@ -34,11 +35,12 @@ public class Level : MonoBehaviour
     public void PlayWinFx()
     {
         winFx.Play();
+        HoleMovement.movemnet = false;
     }
 
     public void LoadNextLevel()
     {
-        Invoke("NextLevel", 2.0f);
+        Invoke("NextLevel", 1.0f);
     }
 
     void NextLevel()
@@ -49,6 +51,7 @@ public class Level : MonoBehaviour
             PlayerPrefs.SetInt("Levels", activeScene + 1);
             SceneManager.LoadScene(activeScene + 1);
         }
+        else SceneManager.LoadScene(activeScene + 1);
     }
 
     public void RestartLevel()
