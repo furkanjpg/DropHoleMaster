@@ -39,10 +39,26 @@ public class Level : MonoBehaviour
     {
         winFx.Play();
     }
-
+   
     public void LoadNextLevel()
     {
-        SceneManager.LoadScene (SceneManager.GetActiveScene().buildIndex + 1);
+     
+     
+        Invoke("NextLevel", 2.0f);
+    }
+    void NextLevel()
+    {
+        int currentIndex;
+        currentIndex = SceneManager.GetActiveScene().buildIndex;
+
+        if (currentIndex >= PlayerPrefs.GetInt("Levels", 0))
+        {
+         
+            PlayerPrefs.SetInt("Levels", currentIndex+1);
+            SceneManager.LoadScene(currentIndex + 1);
+
+        }
+
     }
 
     public void RestartLevel()

@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class HoleMovement : MonoBehaviour
 {
+  
     [Header("Hole mesh")]
     [SerializeField] MeshFilter meshFilter;
     [SerializeField] MeshCollider meshCollider;
@@ -66,6 +67,7 @@ public class HoleMovement : MonoBehaviour
 
     void UpdateHoleVerticesPosition () 
     {
+        
         Vector3[] vertices = mesh.vertices;
         for (int i = 0; i < holeVerticesCount; i++) 
         {
@@ -74,6 +76,8 @@ public class HoleMovement : MonoBehaviour
         mesh.vertices = vertices;
         meshFilter.mesh = mesh;
         meshCollider.sharedMesh = mesh;
+
+        
     }
 
     void FindHoleVertices () 
