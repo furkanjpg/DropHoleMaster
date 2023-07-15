@@ -22,7 +22,7 @@ public class Level : MonoBehaviour
 
     void Start()
     {
-        PlayerPrefs.DeleteAll();
+        //PlayerPrefs.DeleteAll();
         CountObjects();
     }
 
@@ -57,5 +57,10 @@ public class Level : MonoBehaviour
     public void RestartLevel()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+    }
+
+    public void GoHome()
+    {
+        SceneManager.LoadScene(0);
     }
 }

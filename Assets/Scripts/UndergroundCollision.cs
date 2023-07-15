@@ -4,8 +4,13 @@ using DG.Tweening;
 
 public class UndergroundCollision : MonoBehaviour
 {
-    public static float holescale=0.8f;
-    // Start is called before the first frame update
+    [Header("Sounds")]
+    [SerializeField] AudioSource dropSound;
+    [SerializeField] AudioSource loseSound;
+    [SerializeField] AudioSource winSound;
+
+    public static float holescale = 0.8f;
+
     private void Start()
     {
         holescale = 0.8f;
@@ -22,11 +27,15 @@ public class UndergroundCollision : MonoBehaviour
                 UIManager.Instance.UpdateLevelProgress();
                 Destroy (other.gameObject);
                 //deliðin büyüme oraný
-                holescale += .05f;
+                holescale += .025f;
+                // Delik büyüdüðünde çalacak ses
+                dropSound.Play();
 
                 if (Level.Instance.objectsInScene == 0)
                 {
                     UIManager.Instance.ShowLevelCompletedUI();
+                    // KAZANILDIÐINDA ÇALACAK SES
+                    winSound.Play();
                     Level.Instance.PlayWinFx();
                     Invoke ("NextLevel", 2f);
                 }
@@ -35,10 +44,11 @@ public class UndergroundCollision : MonoBehaviour
             if (tag.Equals ("Obstacle"))
             {
                 Game.isGameover = true;
+                // KAYBEDÝLDÝÐÝNDE ÇALACAK SES
+                loseSound.Play();
                 Camera.main.transform.DOShakePosition (1f,.2f,20,90f)
                 .OnComplete (() => {
                     Level.Instance.RestartLevel ();
-
                 });
             }
         }

@@ -17,6 +17,10 @@ public class UIManager : MonoBehaviour
         }
     }
 
+    [Header("Fade Active On Start")]
+    [SerializeField] private GameObject fadePanel;
+
+
     [Header("Level Progress UI")]
     [SerializeField] int sceneOffset;
     [SerializeField] TMP_Text nextLevelText;
@@ -27,18 +31,19 @@ public class UIManager : MonoBehaviour
     [SerializeField] TMP_Text levelCompletedText;
 
     [Space]
-    [SerializeField] Image fadePanel;
+    [SerializeField] Image fadeAnim;
 
     void Start()
     {
         FadeAtStart();
         progressFillImage.fillAmount = 0f;
         SetLevelProgressText();
+        fadePanel.SetActive(true);
     }
 
     void SetLevelProgressText()
     {
-        int level = SceneManager.GetActiveScene ().buildIndex + sceneOffset;
+        int level = SceneManager.GetActiveScene ().buildIndex + sceneOffset -1;
         currentLevelText.text = level.ToString ();
         nextLevelText.text = (level + 1).ToString ();
     }
@@ -57,7 +62,7 @@ public class UIManager : MonoBehaviour
 
     public void FadeAtStart()
     {
-        fadePanel.DOFade (0f, 1.3f).From(1f);
+        fadeAnim.DOFade (0f, 1.3f).From(1f);
     }
 
 }

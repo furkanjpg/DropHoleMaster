@@ -78,7 +78,7 @@ Material:
     - _DstBlend: 0
     - _EnableFog: 0
     - _EnableRotation: 0
-    - _Exp: 8.3
+    - _Exp: 1
     - _Exposure: 1
     - _FogFill: 0.5
     - _FogHeight: 1
@@ -112,7 +112,7 @@ Material:
     - _UVSec: 0
     - _ZWrite: 1
     m_Colors:
-    - _BottomColor: {r: 0.46844962, g: 0.56671757, b: 0.8207547, a: 0}
+    - _BottomColor: {r: 0.5182004, g: 0.6001543, b: 0.8018868, a: 0}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _GroundColor: {r: 0.51002944, g: 0.18903525, b: 0.6792453, a: 1}
@@ -120,6 +120,6 @@ Material:
     - _SkyTint: {r: 1, g: 0.08018869, b: 0.4732701, a: 1}
     - _Tint: {r: 0.5, g: 0.5, b: 0.5, a: 0.5}
     - _TintColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
-    - _TopColor: {r: 0.3773585, g: 0.3773585, b: 0.3773585, a: 1}
-    - _Up: {r: 5.93, g: -3.6, b: 0, a: 0}
+    - _TopColor: {r: 0.6792453, g: 0.57992166, b: 0.57992166, a: 1}
+    - _Up: {r: 5.93, g: 0, b: 0, a: 0}
   m_BuildTextureStacks: []

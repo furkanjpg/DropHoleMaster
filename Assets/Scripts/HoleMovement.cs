@@ -12,7 +12,7 @@ public class HoleMovement : MonoBehaviour
     [Header("Hole vertices radius")]
     [SerializeField] Vector2 moveLimits;
     [SerializeField] float radius;
-   // [SerializeField] Transform holeCenter;
+    // [SerializeField] Transform holeCenter;
 
     [Space]
     [SerializeField] float moveSpeed;
@@ -26,8 +26,8 @@ public class HoleMovement : MonoBehaviour
     float holescale;
 
     public static bool movemnet;
-    
-    
+
+    private bool canMoveHole = false;
 
     float x,y;
     Vector3 touch,targetPos;
@@ -45,6 +45,9 @@ public class HoleMovement : MonoBehaviour
         mesh = meshFilter.mesh;
 
         FindHoleVertices ();
+
+        // DELÝÐÝN 1SN BEKLEYÝP ÇALIÞMASINI SAÐLAYAN KOD
+        StartCoroutine(EnableMoveHoleAfterDelay(1f));
     }
 
 
@@ -59,23 +62,40 @@ public class HoleMovement : MonoBehaviour
             MoveHole ();
             UpdateHoleVerticesPosition ();
         }
+
+        // CANMOVEHOLE TRUE ÝSE METOT ÇALIÞIYOR
+        if (canMoveHole)
+        {
+            MoveHole();
+        }
     }
 
     void MoveHole () 
     {
-        if (movemnet) { 
-        x = Input.GetAxis ("Mouse X");
-        y = Input.GetAxis ("Mouse Y");
+        if (movemnet)
+        {
+            if (movemnet)
+            {
+                x = Input.GetAxis("Mouse X");
+                y = Input.GetAxis("Mouse Y");
 
-        touch = Vector3.Lerp (holeTransform.position, holeTransform.position + new Vector3(x,0f,y), moveSpeed * Time.deltaTime);
+                touch = Vector3.Lerp(holeTransform.position, holeTransform.position + new Vector3(x, 0f, y), moveSpeed * Time.deltaTime);
 
-        targetPos = new Vector3 (
-            Mathf.Clamp (touch.x, -moveLimits.x, moveLimits.x),
-            touch.y,
-            Mathf.Clamp (touch.z, -moveLimits.y, moveLimits.y) );
+                targetPos = new Vector3(
+                    Mathf.Clamp(touch.x, -moveLimits.x, moveLimits.x),
+                    touch.y,
+                    Mathf.Clamp(touch.z, -moveLimits.y, moveLimits.y));
 
-        holeTransform.position = targetPos;
-        } 
+                holeTransform.position = targetPos;
+            }
+        }
+    }
+
+    // DELÝÐÝN IENUMERATOR METODU
+    IEnumerator EnableMoveHoleAfterDelay(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        canMoveHole = true;
     }
 
     void UpdateHoleVerticesPosition()
@@ -91,6 +111,7 @@ public class HoleMovement : MonoBehaviour
         mesh.vertices = vertices;
         meshFilter.mesh = mesh;
         meshCollider.sharedMesh = mesh;
+
     }
 
     void FindHoleVertices()
