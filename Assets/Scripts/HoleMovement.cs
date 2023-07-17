@@ -34,6 +34,7 @@ public class HoleMovement : MonoBehaviour
 
     void Start()
     {
+        moveSpeed=2f;
         movemnet = true;
 
         Game.isMoving = false;

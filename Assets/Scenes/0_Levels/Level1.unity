@@ -2478,7 +2478,7 @@ MonoBehaviour:
   meshCollider: {fileID: 2031466009}
   moveLimits: {x: 1.45, y: 2.44}
   radius: 0.74
-  moveSpeed: 8
+  moveSpeed: 2
   holeTransform: {fileID: 795996319}
   holeWidth: 0.57
 --- !u!65 &809451213
